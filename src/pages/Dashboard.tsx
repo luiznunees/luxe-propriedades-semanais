@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -11,7 +10,8 @@ import {
   SheetContent, 
   SheetHeader, 
   SheetTitle, 
-  SheetTrigger 
+  SheetTrigger,
+  SheetDescription
 } from '@/components/ui/sheet';
 import PropertyForm from '@/components/PropertyForm';
 import CatalogPreview from '@/components/CatalogPreview';
@@ -41,6 +41,7 @@ const Dashboard = () => {
   const [catalogData, setCatalogData] = useState(initialCatalogData);
   const [selectedProperty, setSelectedProperty] = useState<CatalogProperty | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const addNewProperty = () => {
     const newProperty: CatalogProperty = {
@@ -105,27 +106,58 @@ const Dashboard = () => {
 
   const generatePDF = async () => {
     const previewElement = document.getElementById('catalog-preview');
-    if (!previewElement) return;
+    if (!previewElement) {
+      console.error("Preview element not found");
+      return;
+    }
 
-    const canvas = await html2canvas(previewElement, {
-      scale: 2,
-      useCORS: true,
-      logging: false
-    });
-    
-    const imgData = canvas.toDataURL('image/png');
-    
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
-    
-    const imgWidth = 210;
-    const imgHeight = canvas.height * imgWidth / canvas.width;
-    
-    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-    pdf.save(`catalogo-anderson-nunes-${catalogData.date.replace(/\//g, '-')}.pdf`);
+    setIsGeneratingPDF(true);
+
+    try {
+      const originalWidth = previewElement.style.width;
+      previewElement.style.width = '794px';
+
+      const images = Array.from(previewElement.querySelectorAll('img'));
+      await Promise.all(
+        images.map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        })
+      );
+
+      const canvas = await html2canvas(previewElement, {
+        scale: 2,
+        useCORS: true,
+        logging: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff"
+      });
+      
+      previewElement.style.width = originalWidth;
+      
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+      pdf.save(`catalogo-anderson-nunes-${catalogData.date.replace(/\//g, '-')}.pdf`);
+
+      console.log("PDF generated successfully");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      setIsGeneratingPDF(false);
+    }
   };
 
   return (
@@ -141,7 +173,6 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Sidebar: Catalog Settings */}
           <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-lg shadow-md mb-6">
               <h2 className="font-serif text-xl text-luxury-navy mb-4">Informações do Catálogo</h2>
@@ -225,14 +256,15 @@ const Dashboard = () => {
                 <Button 
                   onClick={generatePDF} 
                   className="w-full justify-start bg-luxury-navy hover:bg-luxury-navy/80"
+                  disabled={isGeneratingPDF}
                 >
-                  <Download size={18} className="mr-2" /> Exportar PDF
+                  <Download size={18} className="mr-2" /> 
+                  {isGeneratingPDF ? 'Gerando PDF...' : 'Exportar PDF'}
                 </Button>
               </div>
             </div>
           </div>
           
-          {/* Main Content: Property List */}
           <div className="lg:col-span-2">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="font-serif text-xl text-luxury-navy mb-4">Imóveis</h2>
@@ -322,11 +354,11 @@ const Dashboard = () => {
         </div>
       </div>
       
-      {/* Preview Sheet */}
       <Sheet open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
         <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
           <SheetHeader>
             <SheetTitle>Prévia do Catálogo</SheetTitle>
+            <SheetDescription>Visualize como seu catálogo ficará após exportar para PDF</SheetDescription>
           </SheetHeader>
           <div className="py-6">
             <CatalogPreview catalogData={catalogData} />
@@ -334,8 +366,10 @@ const Dashboard = () => {
               <Button 
                 onClick={generatePDF} 
                 className="bg-luxury-navy hover:bg-luxury-navy/80"
+                disabled={isGeneratingPDF}
               >
-                <Download size={18} className="mr-2" /> Exportar PDF
+                <Download size={18} className="mr-2" /> 
+                {isGeneratingPDF ? 'Gerando PDF...' : 'Exportar PDF'}
               </Button>
             </div>
           </div>
