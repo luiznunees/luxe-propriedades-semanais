@@ -67,8 +67,12 @@ export default {
 					beige: '#E8E2D5',
           cream: '#F5F2EB',
 					gold: '#D9AD6C',
-					navy: '#1F3453',
-					charcoal: '#333333'
+					navy: '#333333',
+					charcoal: '#333333',
+          red: '#c40000',
+          lightGray: '#e0e0e0',
+          gray: '#888888',
+          darkGray: '#555555'
 				},
 			},
 			borderRadius: {

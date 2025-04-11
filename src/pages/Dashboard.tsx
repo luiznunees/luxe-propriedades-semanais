@@ -19,6 +19,8 @@ import { PropertyProps } from '@/components/PropertyCard';
 
 export interface CatalogProperty extends Omit<PropertyProps, 'id'> {
   id: string;
+  code?: string;
+  condoName?: string;
 }
 
 const initialCatalogData = {

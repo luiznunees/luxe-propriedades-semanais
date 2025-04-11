@@ -21,12 +21,12 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({ catalogData }) => {
   return (
     <div id="catalog-preview" className="bg-white max-w-3xl mx-auto overflow-hidden shadow-lg">
       {/* Cover Page */}
-      <div className="relative h-[40vh] bg-luxury-navy flex flex-col justify-center items-center text-white text-center p-8">
+      <div className="relative h-[40vh] bg-[#333333] flex flex-col justify-center items-center text-white text-center p-8">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 max-w-xl">
           <h1 className="font-serif text-4xl md:text-5xl font-medium mb-4">
             {title}
-            <span className="block text-luxury-gold text-lg mt-2">{date}</span>
+            <span className="block text-[#c40000] text-lg mt-2">{date}</span>
           </h1>
           <p className="text-lg italic opacity-90 mb-8">{subtitle}</p>
           <a
@@ -56,14 +56,16 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({ catalogData }) => {
             hasPool={property.hasPool}
             features={property.features}
             imageUrl={property.imageUrl}
+            code={property.code || `XL-${property.id.substring(0, 4)}`}
+            condoName={property.condoName}
           />
         ))}
       </div>
 
       {/* Closing Section */}
       {properties.length > 0 && (
-        <div className="bg-luxury-beige p-8 text-center">
-          <p className="font-serif text-xl text-luxury-navy mb-4">{closingText}</p>
+        <div className="bg-[#f5f5f5] p-8 text-center">
+          <p className="font-serif text-xl text-[#333333] mb-4">{closingText}</p>
           <a
             href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
@@ -76,7 +78,7 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({ catalogData }) => {
       )}
 
       {/* Footer */}
-      <footer className="bg-luxury-navy text-white p-6 text-center">
+      <footer className="bg-[#333333] text-white p-6 text-center">
         <p className="opacity-90">{footerText}</p>
         <div className="mt-2 flex justify-center items-center">
           <a 
