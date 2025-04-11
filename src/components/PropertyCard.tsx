@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Bath, BedDouble, Ruler, PoolIcon } from 'lucide-react';
+import { Home, Bath, BedDouble, Ruler, Waves } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -70,7 +70,7 @@ const PropertyCard: React.FC<PropertyProps> = ({
           </div>
           {hasPool && (
             <div className="flex items-center gap-2 text-luxury-charcoal/80">
-              <PoolIcon size={18} className="text-luxury-gold" />
+              <Waves size={18} className="text-luxury-gold" />
               <span>Piscina</span>
             </div>
           )}
