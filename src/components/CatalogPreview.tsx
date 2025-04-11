@@ -43,7 +43,20 @@ const CatalogPreview: React.FC<CatalogPreviewProps> = ({ catalogData }) => {
       {/* Properties */}
       <div className="p-8">
         {properties.map((property) => (
-          <PropertyCard key={property.id} {...property} />
+          <PropertyCard 
+            key={property.id} 
+            id={Number(property.id)}
+            name={property.name}
+            location={property.location}
+            price={property.price}
+            description={property.description}
+            squareMeters={property.squareMeters}
+            bedrooms={property.bedrooms}
+            bathrooms={property.bathrooms}
+            hasPool={property.hasPool}
+            features={property.features}
+            imageUrl={property.imageUrl}
+          />
         ))}
       </div>
 

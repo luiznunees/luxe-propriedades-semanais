@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/sheet';
 import PropertyForm from '@/components/PropertyForm';
 import CatalogPreview from '@/components/CatalogPreview';
+import { PropertyProps } from '@/components/PropertyCard';
 
 export interface CatalogProperty extends Omit<PropertyProps, 'id'> {
   id: string;
