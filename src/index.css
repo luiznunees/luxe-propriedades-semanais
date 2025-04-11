@@ -1,6 +1,6 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,7 +8,7 @@
 
 @layer base {
   :root {
-    --background: 40 30% 96%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -97,26 +97,49 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    @apply font-sans font-medium;
   }
 }
 
 .property-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .property-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.15);
 }
 
 .whatsapp-button {
   transition: all 0.3s ease;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .whatsapp-button:hover {
   filter: brightness(1.1);
   transform: scale(1.03);
+}
+
+.dashboard-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.property-list-item {
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.property-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.02);
 }

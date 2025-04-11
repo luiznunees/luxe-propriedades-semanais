@@ -108,8 +108,7 @@ export default {
         'fade-in': 'fade-in 1s ease-out',
 			},
       fontFamily: {
-        'serif': ['Playfair Display', 'serif'],
-        'sans': ['Montserrat', 'sans-serif'],
+        'sans': ['Montserrat', 'Roboto', 'system-ui', 'sans-serif'],
       },
 		}
 	},
